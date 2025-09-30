@@ -57,28 +57,22 @@ I use a english linux system but german QWERTZ keyboard layout, so maybe you nee
 ### Stradella
 Main config is `config/stradella_layout.yml` as following:
 
-```
-Counterbass: [1][2][3][4][5][6][7][8][9][0][ß][`]
-Bass Notes:  [Q][W][E][R][T][Z][U][I][O][P][Ü][+]
-Major:       [A][S][D][F][G][H][J][K][L][Ö][Ä][#]
-Minor:       [Y][X][C][V][B][N][M][,][.][-][Shift][Space]
-```
+|      | Keys                                 | MIDI Channel |
+|--------------|--------------------------------------|--------------|
+| Counterbass  | [1][2][3][4][5][6][7][8][9][0][ß][`] | 3            |
+| Bass Notes   | [Q][W][E][R][T][Z][U][I][O][P][Ü][+] | 3            |
+| Major        | [A][S][D][F][G][H][J][K][L][Ö][Ä][#] | 2            |
+| Minor        | [Y][X][C][V][B][N][M][,][.][-][Shift][Space] | 2      |
 
-**MIDI Channels:**
-- Channel 1: Control
-- Channel 2: Chords (major/minor)  
-- Channel 3: Bass notes
+MIDI Channel 1 is used for control communication.
+
 
 ### SimpleBass Layout
 Alternative config is `config/simplebass_layout.yml` which follows a simple pure chromatic schema across 4 octaves:
 
-```
-Row 1 (C1-B1):  [1][2][3][4][5][6][7][8][9][0][ß][´]
-Row 2 (C2-B2):  [Q][W][E][R][T][Z][U][I][O][P][Ü][+]  
-Row 3 (C3-B3):  [A][S][D][F][G][H][J][K][L][Ö][Ä][#]
-Row 4 (C4-A#4): [Y][X][C][V][B][N][M][,][.][-][Space]
-```
-
-**MIDI Channels:**
-- Channel 2: Row 3 and Row 4
-- Channel 3: Row 1 and Row 2
+|          | Keys                                      | MIDI Channel |
+|-------------|-------------------------------------------|--------------|
+| Row 1 (C1-B1)   | [1][2][3][4][5][6][7][8][9][0][ß][´]      | 3            |
+| Row 2 (C2-B2)   | [Q][W][E][R][T][Z][U][I][O][P][Ü][+]      | 3            |
+| Row 3 (C3-B3)   | [A][S][D][F][G][H][J][K][L][Ö][Ä][#]      | 2            |
+| Row 4 (C4-A#4)  | [Y][X][C][V][B][N][M][,][.][-][Space]     | 2            |
