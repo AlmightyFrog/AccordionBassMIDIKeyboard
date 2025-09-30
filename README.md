@@ -8,7 +8,11 @@ Have fun playing around using your favourite MIDI Instruments without the direct
 Focus has been put on traditional Stradella bass layout.  
 As there are ergonomically only 4 rows almost properly spaced you only get counterbass bass major and minor.
 
-Turn your keyboard 90 degree and lay it on left side of your MIDI keyboard for best experience.
+## How to Use Ergonomically
+
+![How to use ergonomically](AccordionKeyboardMidiKeyboard.jpg)
+
+Turn your keyboard 90 degrees and place it on the left side of your MIDI keyboard for the best experience.
 
 ## 🐸 **LEAP** – **L**et **E**rrors **A**bort **P**romptly
 ```
