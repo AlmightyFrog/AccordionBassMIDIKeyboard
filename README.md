@@ -10,7 +10,7 @@ As there are ergonomically only 4 rows almost properly spaced you only get count
 
 Turn your keyboard 90 degree and lay it on left side of your MIDI keyboard for best experience.
 
-## **LEAP** – **L**et **E**rrors **A**bort **P**romptly 
+## 🐸 **LEAP** – **L**et **E**rrors **A**bort **P**romptly
 ```
 Don’t catch what you should crash.  
 Crash early, crash clearly, crash fast.
