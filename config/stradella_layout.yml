@@ -1,0 +1,106 @@
+# Stradella Bass System Configuration - German QWERTZ layout
+layout: "stradella"
+velocity: 100
+
+# Channel mapping for different bass types
+channel_mapping:
+  control: 1
+  counterbass: 3
+  bass: 3
+  major: 2
+  minor: 2
+
+# Stradella Bass Mapping - Proper accordion arrangement
+bass_mapping:
+  # === COUNTERBASS/TERZBASS (Fourth Row) - Stradella system ===
+  # These play the major third of each corresponding bass note (one row up)
+  # Physical keys: 1-2-3-4-5-6-7-8-9-0-ß
+  KEY_1: {notes: "C1", name: "C1", type: "counterbass"}       # Major 3rd of Ab (C)
+  KEY_2: {notes: "G1", name: "G1", type: "counterbass"}       # Major 3rd of Eb (G) 
+  KEY_3: {notes: "D1", name: "D1", type: "counterbass"}       # Major 3rd of Bb (D)
+  KEY_4: {notes: "A1", name: "A1", type: "counterbass"}       # Major 3rd of F (A)
+  KEY_5: {notes: "E1", name: "E1", type: "counterbass"}       # Major 3rd of C (E)
+  KEY_6: {notes: "B1", name: "B1", type: "counterbass"}       # Major 3rd of G (B)
+  KEY_7: {notes: "F#1", name: "F#1", type: "counterbass"}     # Major 3rd of D (F#)
+  KEY_8: {notes: "C#1", name: "C#1", type: "counterbass"}     # Major 3rd of A (C#)
+  KEY_9: {notes: "G#1", name: "G#1", type: "counterbass"}     # Major 3rd of E (G#)
+  KEY_0: {notes: "D#1", name: "D#1", type: "counterbass"}     # Major 3rd of B (D#)
+  KEY_MINUS: {notes: "A#1", name: "A#1", type: "counterbass"} # Major 3rd of F# (A#) (ß key)
+  KEY_EQUAL: {notes: "F1", name: "F1", type: "counterbass"}    # Major 3rd of C# (F) (´ key)
+
+  # === BASS NOTES (Top Row) - Circle of fifths, natural fingering ===
+  # Physical keys: Q-W-E-R-T-Z-U-I-O-P-Ü
+  KEY_Q: {notes: "Ab1", name: "Ab1", type: "bass"}      # Ab1
+  KEY_W: {notes: "Eb1", name: "Eb1", type: "bass"}      # Eb1
+  KEY_E: {notes: "Bb1", name: "Bb1", type: "bass"}      # Bb1
+  KEY_R: {notes: "F1", name: "F1", type: "bass"}        # F1
+  KEY_T: {notes: "C1", name: "C1", type: "bass"}        # C1
+  KEY_Y: {notes: "G1", name: "G1", type: "bass"}        # G1 (physical Z sends KEY_Y)
+  KEY_U: {notes: "D1", name: "D1", type: "bass"}        # D1
+  KEY_I: {notes: "A1", name: "A1", type: "bass"}        # A1
+  KEY_O: {notes: "E1", name: "E1", type: "bass"}        # E1
+  KEY_P: {notes: "B1", name: "B1", type: "bass"}        # B1
+  KEY_LEFTBRACE: {notes: "F#1", name: "F#1", type: "bass"}  # F#1 (Ü key)
+  KEY_RIGHTBRACE: {notes: "C#1", name: "C#1", type: "bass"} # C#1 (+ key)
+
+  # === MAJOR CHORDS (Second Row) - Stradella system ===
+  # Physical keys: A-S-D-F-G-H-J-K-L-Ö-Ä
+  KEY_A: {notes: ["Ab2", "C2", "Eb2"], name: "Ab-Major", type: "major"}    # Ab2-C2-Eb2
+  KEY_S: {notes: ["Eb2", "G2", "Bb2"], name: "Eb-Major", type: "major"}    # Eb2-G2-Bb2
+  KEY_D: {notes: ["Bb2", "D2", "F2"], name: "Bb-Major", type: "major"}     # Bb2-D2-F2
+  KEY_F: {notes: ["F2", "A2", "C2"], name: "F-Major", type: "major"}       # F2-A2-C2
+  KEY_G: {notes: ["C2", "E2", "G2"], name: "C-Major", type: "major"}       # C2-E2-G2
+  KEY_H: {notes: ["G2", "B2", "D2"], name: "G-Major", type: "major"}       # G2-B2-D2
+  KEY_J: {notes: ["D2", "F#2", "A2"], name: "D-Major", type: "major"}      # D2-F#2-A2
+  KEY_K: {notes: ["A2", "C#2", "E2"], name: "A-Major", type: "major"}      # A2-C#2-E2
+  KEY_L: {notes: ["E2", "G#2", "B2"], name: "E-Major", type: "major"}      # E2-G#2-B2
+  KEY_SEMICOLON: {notes: ["B2", "D#2", "F#2"], name: "B-Major", type: "major"}     # B2-D#2-F#2 (Ö key)
+  KEY_APOSTROPHE: {notes: ["F#2", "A#2", "C#2"], name: "F#-Major", type: "major"}  # F#2-A#2-C#2 (Ä key)
+  KEY_BACKSLASH: {notes: ["C#2", "F2", "G#2"], name: "C#-Major", type: "major"}   # C#2-F2-G#2 (# key)
+
+  # === MINOR CHORDS (Third Row) - Stradella system ===
+  # Physical keys: Y-X-C-V-B-N-M-,-.-
+  # Note: Physical Y sends KEY_Z on German layout
+  KEY_Z: {notes: ["Ab2", "B2", "Eb2"], name: "Ab-Minor", type: "minor"}     # Ab2-B2-Eb2 (physical Y)
+  KEY_X: {notes: ["Eb2", "Gb2", "Bb2"], name: "Eb-Minor", type: "minor"}    # Eb2-Gb2-Bb2
+  KEY_C: {notes: ["Bb2", "Db2", "F2"], name: "Bb-Minor", type: "minor"}     # Bb2-Db2-F2
+  KEY_V: {notes: ["F2", "Ab2", "C2"], name: "F-Minor", type: "minor"}       # F2-Ab2-C2
+  KEY_B: {notes: ["C2", "Eb2", "G2"], name: "C-Minor", type: "minor"}       # C2-Eb2-G2
+  KEY_N: {notes: ["G2", "Bb2", "D2"], name: "G-Minor", type: "minor"}       # G2-Bb2-D2
+  KEY_M: {notes: ["D2", "F2", "A2"], name: "D-Minor", type: "minor"}        # D2-F2-A2
+  KEY_COMMA: {notes: ["A2", "C2", "E2"], name: "A-Minor", type: "minor"}    # A2-C2-E2
+  KEY_DOT: {notes: ["E2", "G2", "B2"], name: "E-Minor", type: "minor"}      # E2-G2-B2
+  KEY_SLASH: {notes: ["B2", "D2", "F#2"], name: "B-Minor", type: "minor"}   # B2-D2-F#2
+  KEY_RIGHTSHIFT: {notes: ["F#2", "A2", "C#2"], name: "F#-Minor", type: "minor"}  # F#2-A2-C#2 (+ key)
+  KEY_SPACE: {notes: ["C#2", "E2", "G#2"], name: "C#-Minor", type: "minor"}  # C#2-E2-G#2 (Space key)
+
+auxiliary_keys:
+  # Control notes - single MIDI notes on control channel
+  KEY_PLUS: {notes: "C1", name: "Control C1", type: "control"}
+  
+  # MIDI CC Controls - for effects, expression, modulation etc.
+  KEY_SHARP: {cc: [64], value: 127, name: "Sustain Pedal (CC64)", type: "control", behavior: "toggle"}
+  
+  # Additional control examples (uncomment to use):
+  # KEY_EQUAL: {cc: [1], value: 127, name: "Modulation (CC1)", type: "control", behavior: "momentary"}
+  # KEY_BACKSPACE: {cc: [7], value: 100, name: "Volume (CC7)", type: "control", behavior: "momentary"}
+  # KEY_TAB: {cc: [11], value: 110, name: "Expression (CC11)", type: "control", behavior: "toggle"}
+  # KEY_CAPSLOCK: {cc: [67], value: 127, name: "Soft Pedal (CC67)", type: "control", behavior: "toggle"}
+  # KEY_LEFTSHIFT: {notes: "C0", name: "Bass Boost", type: "control", channel: 1}
+  # KEY_RIGHTSHIFT: {notes: ["C2", "E2", "G2"], name: "Chord Boost", type: "control", channel: 2}
+  
+  # Multi-CC control (sends multiple CC messages at once)
+  # KEY_SPACE: {cc: [64, 67], value: 127, name: "Sustain+Soft", type: "control", behavior: "toggle"} 
+
+# Layout metadata
+layout_info:
+  name: "Stradella Bass System"
+  description: "Traditional accordion bass layout with German QWERTZ keyboard mapping"
+  keyboard_layout: "QWERTZ"
+  
+  # Visual layout guide for reference
+  rows:
+    counterbass: "1 2 3 4 5 6 7 8 9 0 ß (Terzbass - major thirds)"
+    bass_notes: "Q W E R T Z U I O P Ü (Grundbass - root notes)"
+    major_chords: "A S D F G H J K L Ö Ä (Dur-Akkorde - major triads)"
+    minor_chords: "Y X C V B N M , . / (Moll-Akkorde - minor triads)"

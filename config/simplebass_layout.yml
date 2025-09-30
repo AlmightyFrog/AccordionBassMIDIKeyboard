@@ -1,0 +1,79 @@
+# SimpleBass System Configuration - German QWERTZ layout
+layout: "simplebass"
+velocity: 100
+
+# Channel mapping for different bass types
+channel_mapping:
+  bass: 3
+  tenor: 2
+  interval: 2
+
+# SimpleBass Mapping - Pure Chromatic Bass (4 Octaves)
+bass_mapping:
+  # === ROW 1: Numbers (C1 - B1) ===
+  KEY_1: {notes: "C1", name: "C1", type: "bass"}      # 1
+  KEY_2: {notes: "C#1", name: "C#1", type: "bass"}    # 2
+  KEY_3: {notes: "D1", name: "D1", type: "bass"}      # 3
+  KEY_4: {notes: "D#1", name: "D#1", type: "bass"}    # 4
+  KEY_5: {notes: "E1", name: "E1", type: "bass"}      # 5
+  KEY_6: {notes: "F1", name: "F1", type: "bass"}      # 6
+  KEY_7: {notes: "F#1", name: "F#1", type: "bass"}    # 7
+  KEY_8: {notes: "G1", name: "G1", type: "bass"}      # 8
+  KEY_9: {notes: "G#1", name: "G#1", type: "bass"}    # 9
+  KEY_0: {notes: "A1", name: "A1", type: "bass"}      # 0
+  KEY_MINUS: {notes: "A#1", name: "A#1", type: "bass"} # ß
+  KEY_EQUAL: {notes: "B1", name: "B1", type: "bass"}   # ´
+
+  # === ROW 2: Q-row (C2 - B2) ===
+  KEY_Q: {notes: "C2", name: "C2", type: "bass"}      # Q
+  KEY_W: {notes: "C#2", name: "C#2", type: "bass"}    # W
+  KEY_E: {notes: "D2", name: "D2", type: "bass"}      # E
+  KEY_R: {notes: "D#2", name: "D#2", type: "bass"}    # R
+  KEY_T: {notes: "E2", name: "E2", type: "bass"}      # T
+  KEY_Y: {notes: "F2", name: "F2", type: "bass"}      # Z (physical)
+  KEY_U: {notes: "F#2", name: "F#2", type: "bass"}    # U
+  KEY_I: {notes: "G2", name: "G2", type: "bass"}      # I
+  KEY_O: {notes: "G#2", name: "G#2", type: "bass"}    # O
+  KEY_P: {notes: "A2", name: "A2", type: "bass"}      # P
+  KEY_LEFTBRACE: {notes: "A#2", name: "A#2", type: "bass"} # Ü
+  KEY_RIGHTBRACE: {notes: "B2", name: "B2", type: "bass"}  # +
+
+  # === ROW 3: A-row (C3 - B3) ===
+  KEY_A: {notes: "C3", name: "C3", type: "tenor"}      # A
+  KEY_S: {notes: "C#3", name: "C#3", type: "tenor"}    # S
+  KEY_D: {notes: "D3", name: "D3", type: "tenor"}      # D
+  KEY_F: {notes: "D#3", name: "D#3", type: "tenor"}    # F
+  KEY_G: {notes: "E3", name: "E3", type: "tenor"}      # G
+  KEY_H: {notes: "F3", name: "F3", type: "tenor"}      # H
+  KEY_J: {notes: "F#3", name: "F#3", type: "tenor"}    # J
+  KEY_K: {notes: "G3", name: "G3", type: "tenor"}      # K
+  KEY_L: {notes: "G#3", name: "G#3", type: "tenor"}    # L
+  KEY_SEMICOLON: {notes: "A3", name: "A3", type: "tenor"}   # Ö
+  KEY_APOSTROPHE: {notes: "A#3", name: "A#3", type: "tenor"} # Ä
+  KEY_BACKSLASH: {notes: "B3", name: "B3", type: "tenor"}   # #
+
+  # === ROW 4: Y-row (C4 - B4) ===
+  KEY_Z: {notes: "C4", name: "C4", type: "tenor"}      # Y (physical)
+  KEY_X: {notes: "C#4", name: "C#4", type: "tenor"}    # X
+  KEY_C: {notes: "D4", name: "D4", type: "tenor"}      # C
+  KEY_V: {notes: "D#4", name: "D#4", type: "tenor"}    # V
+  KEY_B: {notes: "E4", name: "E4", type: "tenor"}      # B
+  KEY_N: {notes: "F4", name: "F4", type: "tenor"}      # N
+  KEY_M: {notes: "F#4", name: "F#4", type: "tenor"}    # M
+  KEY_COMMA: {notes: "G4", name: "G4", type: "tenor"}  # ,
+  KEY_DOT: {notes: "G#4", name: "G#4", type: "tenor"}  # .
+  KEY_SLASH: {notes: "A4", name: "A4", type: "tenor"}  # -
+  KEY_RIGHTSHIFT: {notes: "A#4", name: "A#4", type: "tenor"} # Right Shift
+  KEY_SPACE: {notes: "B4", name: "B4", type: "tenor"} # Space
+
+# Layout metadata
+layout_info:
+  name: "SimpleBass System"
+  description: "Pure chromatic bass layout - 4 octaves of bass notes"
+  keyboard_layout: "QWERTZ"
+  
+  rows:
+    row1: "1 2 3 4 5 6 7 8 9 0 ß ´ (C1-B1)"
+    row2: "Q W E R T Z U I O P Ü + (C2-B2)"  
+    row3: "A S D F G H J K L Ö Ä # (C3-B3)"
+    row4: "Y X C V B N M , . - [Right Shift] [Space] (C4-B4)"
