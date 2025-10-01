@@ -411,6 +411,11 @@ def select_keyboard_interactive(keyboards):
 
 
 def main():
+    # list all files in config directory with *_layout.yml
+    config_dir = Path(__file__).parent / "config"
+    layout_files = list(config_dir.glob("*_layout.yml"))
+    layout_files = [f.stem.replace('_layout', '') for f in layout_files]
+
     """Main function."""
     parser = argparse.ArgumentParser(description="Accordion Bass MIDI Controller")
     parser.add_argument(
@@ -424,8 +429,8 @@ def main():
     )
     parser.add_argument(
         "--layout",
-        choices=["stradella", "simplebass"],
-        help="Layout type to use (auto-selects config file)"
+        choices=layout_files,
+        help=f"Layout type to use (default is 'stradella')"
     )
     parser.add_argument(
         "--debug",

@@ -71,6 +71,12 @@ Main config is `config/stradella_layout.yml` as following:
 MIDI Channel 1 is used for control communication.
 
 
+### Circle of Fifths
+Layout `config/circle_layout.yml` derived from Stradella but arranges bass notes in circle of fifths order (Ab-Eb-Bb-F-C-G-D-A-E-B-F#-C#). Instead of chords, the major/minor rows duplicate the bass notes in higher octaves (octave 2 and 3) on MIDI channel 2.
+
+This works particularly well with tonewheel organs where playing full chords would sound too cluttered with all the drawbars pulled out - single notes in different octaves provide harmonic richness without the density.
+
+
 ### SimpleBass Layout
 Alternative config is `config/simplebass_layout.yml` which follows a simple pure chromatic schema across 4 octaves:
 
@@ -80,3 +86,4 @@ Alternative config is `config/simplebass_layout.yml` which follows a simple pure
 | Row 2 (C2-B2)   | [Q][W][E][R][T][Z][U][I][O][P][Ü][+]      | 3            |
 | Row 3 (C3-B3)   | [A][S][D][F][G][H][J][K][L][Ö][Ä][#]      | 2            |
 | Row 4 (C4-A#4)  | [Y][X][C][V][B][N][M][,][.][-][Space]     | 2            |
+
