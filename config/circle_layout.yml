@@ -102,5 +102,5 @@ layout_info:
   rows:
     counterbass: "1 2 3 4 5 6 7 8 9 0 ß (Terzbass - major thirds)"
     bass_notes: "Q W E R T Z U I O P Ü (Grundbass - root notes)"
-    major_chords: "A S D F G H J K L Ö Ä (Dur-Akkorde - major triads)"
-    minor_chords: "Y X C V B N M , . / (Moll-Akkorde - minor triads)"
+    major_octaves: "A S D F G H J K L Ö Ä (Root notes octave 2)"
+    minor_octaves: "Y X C V B N M , . / (Root notes octave 3)"
