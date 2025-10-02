@@ -75,6 +75,7 @@ class AccordionBassMIDI:
         self.midiout = None
         self.active_notes = set()
         self.debug = debug
+        self.grab_mode = False  # CapsLock toggle to grab/prevent OS key events
         
         # Load configuration
         config_path = config_file or Path(__file__).parent / "config" / "stradella_layout.yml"
@@ -242,6 +243,20 @@ class AccordionBassMIDI:
                        "HOLD" if key_event.keystate == key_event.key_hold else "UNKNOWN"
             print(f"🔧 DEBUG: {key_name} ({event.code}) -> {key_state}")
         
+        # Handle CapsLock toggle for grab mode
+        if key_name == "KEY_CAPSLOCK" and key_event.keystate == key_event.key_down:
+            self.grab_mode = not self.grab_mode
+            try:
+                if self.grab_mode:
+                    self.device.grab()
+                    logger.info(f"� Grab mode ENABLED - Keys captured (no OS typing)")
+                else:
+                    self.device.ungrab()
+                    logger.info(f"🔓 Grab mode DISABLED - Keys pass to OS (normal typing)")
+            except Exception as e:
+                logger.error(f"Failed to toggle grab mode: {e}")
+            return
+        
         # Check bass mapping first
         bass_config = self.config["bass_mapping"].get(key_name)
         if bass_config:
@@ -340,6 +355,14 @@ class AccordionBassMIDI:
             else:
                 # Fallback for old format
                 self.midiout.send_message([0x80, note_channel, 0])
+        
+        # Release keyboard grab if active
+        if self.device and self.grab_mode:
+            try:
+                self.device.ungrab()
+                logger.info("🔓 Released keyboard grab")
+            except Exception as e:
+                logger.warning(f"Failed to ungrab device: {e}")
         
         if self.midiout:
             self.midiout.close_port()
