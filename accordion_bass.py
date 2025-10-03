@@ -433,6 +433,38 @@ def select_keyboard_interactive(keyboards):
         return None
 
 
+def find_device_by_name(device_name, keyboards=None):
+    """Find keyboard device by name (partial match, case-insensitive)."""
+    if keyboards is None:
+        keyboards = find_keyboards()
+    
+    if not device_name:
+        return None
+    
+    for kb in keyboards:
+        if device_name.lower() in kb['name'].lower():
+            logger.info(f"Found matching device: '{kb['name']}' for '{device_name}'")
+            return kb['path']
+    
+    logger.warning(f"No device found matching: '{device_name}'")
+    return None
+
+
+def load_config_arguments():
+    """Load arguments section from config.yml."""
+    config_path = Path(__file__).parent / "config.yml"
+    if not config_path.exists():
+        return {}
+    
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            config = yaml.safe_load(f)
+            return config.get('arguments', {})
+    except Exception as e:
+        logger.warning(f"Failed to load config.yml: {e}")
+        return {}
+
+
 def main():
     # list all files in config directory with *_layout.yml
     config_dir = Path(__file__).parent / "config"
@@ -444,6 +476,10 @@ def main():
     parser.add_argument(
         "--device", "-d",
         help="Path to keyboard device (e.g. /dev/input/event3)"
+    )
+    parser.add_argument(
+        "--device-by-name",
+        help="Find device by name (partial match, case-insensitive)"
     )
     parser.add_argument(
         "--list", "-l",
@@ -463,6 +499,25 @@ def main():
     
     args = parser.parse_args()
     
+    # Load config arguments and apply them as defaults (only if not manually specified)
+    config_args = load_config_arguments()
+    for arg_name, arg_value in config_args.items():
+        # Convert hyphenated argument names to underscored attribute names
+        attr_name = arg_name.replace('-', '_')
+        
+        if hasattr(args, attr_name):
+            current_value = getattr(args, attr_name)
+            
+            # For boolean flags (like --debug), only set if False and config is True
+            if isinstance(current_value, bool):
+                if not current_value and arg_value:
+                    setattr(args, attr_name, arg_value)
+                    logger.info(f"Using {arg_name} from config.yml: {arg_value}")
+            # For other arguments, only set if None (not provided)
+            elif current_value is None:
+                setattr(args, attr_name, arg_value)
+                logger.info(f"Using {arg_name} from config.yml: '{arg_value}'")
+    
     # Determine configuration file
     config_file = None
     if args.layout:
@@ -477,13 +532,23 @@ def main():
         list_keyboards_detailed(keyboards)
         return
     
-    if not args.device:
-        keyboards = find_keyboards()
-        device_path = select_keyboard_interactive(keyboards)
-        if not device_path:
-            return
-    else:
+    # Device selection logic
+    keyboards = find_keyboards()
+    device_path = None
+    
+    if args.device:
         device_path = args.device
+    elif getattr(args, 'device_by_name', None):
+        device_path = find_device_by_name(args.device_by_name, keyboards)
+        if not device_path:
+            print(f"❌ No device found matching '{args.device_by_name}'")
+            print("🔍 Falling back to interactive selection...")
+            device_path = select_keyboard_interactive(keyboards)
+    else:
+        device_path = select_keyboard_interactive(keyboards)
+    
+    if not device_path:
+        return
     
     # Start controller
     try:

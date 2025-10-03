@@ -1,0 +1,6 @@
+# Automagically custom defaults for arguments
+arguments:
+  device_by_name: "Logitech K350"
+  layout: "circle"
+  # debug: true
+  # device: "/dev/input/event3"
