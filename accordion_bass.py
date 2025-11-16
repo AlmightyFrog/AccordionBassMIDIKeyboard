@@ -56,12 +56,16 @@ def notes_to_midi(notes) -> List[int]:
     """Convert list of note strings to MIDI numbers."""
     if isinstance(notes, str):
         return [note_to_midi(notes)]
-    elif isinstance(notes, list):
-        return [note_to_midi(note) for note in notes]
     elif isinstance(notes, int):
         return [notes]  # Already MIDI number
-    elif isinstance(notes, list) and all(isinstance(n, int) for n in notes):
-        return notes  # Already MIDI numbers
+    elif isinstance(notes, list):
+        if not notes:
+            return []
+        # Check first element to determine type
+        if isinstance(notes[0], int):
+            return notes  # Already MIDI numbers
+        else:
+            return [note_to_midi(note) for note in notes]
     else:
         raise ValueError(f"Invalid notes format: {notes}")
 
@@ -80,6 +84,10 @@ class AccordionBassMIDI:
         # Load configuration
         config_path = config_file or Path(__file__).parent / "config" / "stradella_layout.yml"
         self.load_config(config_path)
+        
+        # Cache bass_mapping and auxiliary_keys for faster lookup in hot path
+        self.bass_mapping = self.config.get("bass_mapping", {})
+        self.auxiliary_keys = self.config.get("auxiliary_keys", {})
         
         # Initialize MIDI
         self.setup_midi()
@@ -257,18 +265,17 @@ class AccordionBassMIDI:
                 logger.error(f"Failed to toggle grab mode: {e}")
             return
         
-        # Check bass mapping first
-        bass_config = self.config["bass_mapping"].get(key_name)
+        # Check bass mapping first (cached)
+        bass_config = self.bass_mapping.get(key_name)
         if bass_config:
             self.handle_bass_key(key_name, bass_config, key_event)
             return
         
-        # Check auxiliary keys
-        if 'auxiliary_keys' in self.config:
-            aux_config = self.config["auxiliary_keys"].get(key_name)
-            if aux_config:
-                self.handle_auxiliary_key(key_name, aux_config, key_event)
-                return
+        # Check auxiliary keys (cached)
+        aux_config = self.auxiliary_keys.get(key_name)
+        if aux_config:
+            self.handle_auxiliary_key(key_name, aux_config, key_event)
+            return
         
         # Debug output for unmapped keys
         if self.debug and key_event.keystate == key_event.key_down:
@@ -348,13 +355,8 @@ class AccordionBassMIDI:
     def cleanup(self):
         """Clean up on exit."""
         # Stop all active notes
-        for note_channel in list(self.active_notes):
-            if isinstance(note_channel, tuple):
-                note, channel = note_channel
-                self.midiout.send_message([0x80 | (channel - 1), note, 0])
-            else:
-                # Fallback for old format
-                self.midiout.send_message([0x80, note_channel, 0])
+        for note, channel in self.active_notes:
+            self.midiout.send_message([0x80 | channel, note, 0])
         
         # Release keyboard grab if active
         if self.device and self.grab_mode:
@@ -373,10 +375,10 @@ class AccordionBassMIDI:
 def find_keyboards():
     """Find all available keyboard devices with detailed info."""
     keyboards = []
-    devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
     
-    for device in devices:
+    for path in evdev.list_devices():
         try:
+            device = evdev.InputDevice(path)
             capabilities = device.capabilities()
             if ecodes.EV_KEY in capabilities:
                 key_codes = capabilities[ecodes.EV_KEY]
@@ -466,12 +468,10 @@ def load_config_arguments():
 
 
 def main():
+    """Main function."""
     # list all files in config directory with *_layout.yml
     config_dir = Path(__file__).parent / "config"
-    layout_files = list(config_dir.glob("*_layout.yml"))
-    layout_files = [f.stem.replace('_layout', '') for f in layout_files]
-
-    """Main function."""
+    layout_files = [f.stem.replace('_layout', '') for f in config_dir.glob("*_layout.yml")]
     parser = argparse.ArgumentParser(description="Accordion Bass MIDI Controller")
     parser.add_argument(
         "--device", "-d",
