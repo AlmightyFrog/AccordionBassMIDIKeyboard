@@ -86,6 +86,7 @@ class AccordionBassMIDI:
         self.active_notes = set()
         self.debug = debug
         self.grab_mode = False  # CapsLock toggle to grab/prevent OS key events
+        self.cc_states = {}  # Track CC toggle states per key
         
         # Load configuration
         config_path = config_file or Path(__file__).parent / "config" / "stradella_layout.yml"
@@ -231,16 +232,13 @@ class AccordionBassMIDI:
     
     def send_midi_cc_toggle(self, cc_numbers: List[int], channel: int = None, key_name: str = ""):
         """Toggle MIDI Control Change messages (0/127) on specified channel."""
-        # Track CC state per key (initialize if not exists)
-        if not hasattr(self, 'cc_states'):
-            self.cc_states = {}
-        
-        if key_name not in self.cc_states:
-            self.cc_states[key_name] = False
+        # Get current state or initialize to False
+        current_state = self.cc_states.get(key_name, False)
         
         # Toggle state
-        self.cc_states[key_name] = not self.cc_states[key_name]
-        value = 127 if self.cc_states[key_name] else 0
+        new_state = not current_state
+        self.cc_states[key_name] = new_state
+        value = 127 if new_state else 0
         
         # Send CC messages
         self.send_midi_cc(cc_numbers, value, channel)
