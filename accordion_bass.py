@@ -16,6 +16,12 @@ import rtmidi
 from evdev import InputDevice, categorize, ecodes
 import yaml
 
+# Use faster C-based YAML loader if available
+try:
+    from yaml import CSafeLoader as SafeLoader
+except ImportError:
+    from yaml import SafeLoader
+
 # Logging setup
 logging.basicConfig(
     level=logging.INFO,
@@ -89,6 +95,10 @@ class AccordionBassMIDI:
         self.bass_mapping = self.config.get("bass_mapping", {})
         self.auxiliary_keys = self.config.get("auxiliary_keys", {})
         
+        # Cache default MIDI channel and velocity for hot path
+        self.default_midi_channel = self.config.get("midi_channel", 1)
+        self.default_velocity = self.config.get("velocity", 100)
+        
         # Initialize MIDI
         self.setup_midi()
         
@@ -99,7 +109,7 @@ class AccordionBassMIDI:
         """Loads the bass layout configuration."""
         try:
             with open(config_path, 'r', encoding='utf-8') as f:
-                self.config = yaml.safe_load(f)
+                self.config = yaml.load(f, Loader=SafeLoader)
                 logger.info(f"Configuration loaded from {config_path}")
                 
                 # Validate required fields
@@ -196,8 +206,8 @@ class AccordionBassMIDI:
     def send_midi_notes(self, notes: List[int], velocity: int, channel: int = None, note_on: bool = True):
         """Send MIDI notes on specified channel."""
         status = 0x90 if note_on else 0x80  # Note On/Off
-        # Use provided channel or fall back to default
-        midi_channel = (channel or self.config.get("midi_channel", 1)) - 1  # MIDI channel (0-15)
+        # Use provided channel or fall back to cached default
+        midi_channel = (channel or self.default_midi_channel) - 1  # MIDI channel (0-15)
         
         for note in notes:
             message = [status | midi_channel, note, velocity if note_on else 0]
@@ -210,8 +220,8 @@ class AccordionBassMIDI:
     
     def send_midi_cc(self, cc_numbers: List[int], value: int, channel: int = None):
         """Send MIDI Control Change messages on specified channel."""
-        # Use provided channel or fall back to default
-        midi_channel = (channel or self.config.get("midi_channel", 1)) - 1  # MIDI channel (0-15)
+        # Use provided channel or fall back to cached default
+        midi_channel = (channel or self.default_midi_channel) - 1  # MIDI channel (0-15)
         
         for cc_num in cc_numbers:
             # CC message: 0xB0 + channel, CC number, value
@@ -284,7 +294,7 @@ class AccordionBassMIDI:
     def handle_bass_key(self, key_name: str, bass_config: dict, key_event):
         """Handle bass/chord key events."""
         notes = bass_config["notes"]
-        velocity = self.config.get("velocity", 100)
+        velocity = self.default_velocity
         channel = bass_config.get("channel")
         
         if key_event.keystate == key_event.key_down:
@@ -298,7 +308,7 @@ class AccordionBassMIDI:
     def handle_auxiliary_key(self, key_name: str, aux_config: dict, key_event):
         """Handle auxiliary key events (MIDI notes, CC messages, toggles)."""
         channel = aux_config.get("channel")
-        velocity = self.config.get("velocity", 100)
+        velocity = self.default_velocity
         
         # Handle key press
         if key_event.keystate == key_event.key_down:
@@ -460,7 +470,7 @@ def load_config_arguments():
     
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
-            config = yaml.safe_load(f)
+            config = yaml.load(f, Loader=SafeLoader)
             return config.get('arguments', {})
     except Exception as e:
         logger.warning(f"Failed to load config.yml: {e}")
